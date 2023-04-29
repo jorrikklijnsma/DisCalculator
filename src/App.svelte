@@ -1,3 +1,7 @@
+<svelte:head>
+  <link rel="icon" type="image/png" href="./disCalculatorIcon.png" />
+</svelte:head>
+
 <script lang="ts">
   import Time from './components/Time.svelte'
   import TimeInText from './components/TimeInText.svelte'
@@ -13,7 +17,7 @@
       </div>
       <div id="nav">
         <a href="#" on:click={() => {selectedView = "Time"}}>Time</a>      
-        <a  href="#"  on:click={() => {selectedView = "TimeInText"}}>Time in Text</a>
+        <a href="#"  on:click={() => {selectedView = "TimeInText"}}>Time in Text</a>
       </div>
     </header>
     <div class="wrapper">
