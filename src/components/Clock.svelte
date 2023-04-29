@@ -1,9 +1,6 @@
 <script lang='ts'>
   export let hours: number;
   export let minutes: number;
-
-
-console.log(hours);
 </script>
 
 <div class="clock">
