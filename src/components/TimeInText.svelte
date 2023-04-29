@@ -19,6 +19,7 @@
 </script>
 
 <div class="timeTextCalc">
+  <h3>Selecteer de text:</h3>
     <form on:submit|preventDefault>
         <div class="select">
             <select bind:value={selectedInterval} on:change={calcText}>
