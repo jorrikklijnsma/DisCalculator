@@ -19,9 +19,11 @@
 
     const calcText = () => {
       if (hours < 0 || hours > 23) {
+        hours = Math.min(23, Math.max(hours, 0))
         errorText = 'geen geldige uren';
         return
       } else if (minutes < 0 || minutes > 59) {
+        hours = Math.min(59, Math.max(minutes, 0))
         errorText = 'geen geldige minuten'
         return
       } else {
@@ -94,9 +96,9 @@
 <div class="timeCalc">
   <h3>Selecteer de tijd:</h3>
   <form>
-    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={hours} placeholder="18" on:keyup={calcText} min="00" max="23">
+    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={hours} on:click={() => {hours = null}} on:keyup={calcText} min="0" max="23">
     :
-    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={minutes} placeholder="56" on:keyup={calcText} min="00" max="59">
+    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={minutes} on:click={() => {minutes = null}} on:keyup={calcText} min="0" max="59">
   </form>
 
   {#if errorText}
@@ -136,11 +138,7 @@
     color: #F2E6CE;
     padding: 1.5rem 3rem;
     font-size: 1rem;
-    width: 24px
-  }
-  input::placeholder {
-    color: #A3BFBF;
-    font-size: 2.2rem;
+    width: 2rem;
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
