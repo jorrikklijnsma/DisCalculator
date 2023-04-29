@@ -5,13 +5,15 @@
 
     let selectedInterval:number = 0
     let selectedHour:number = 12
+    let hourForClock:number = 0
     let early:string
     let late:string
 
     const calcText = () => {
-        let lateTime = (selectedInterval > 59 ? selectedHour + 11 : selectedHour + 12).toString()
-        let hourDef = (selectedInterval > 59 ? selectedHour - 1 : selectedHour).toString()
-        const intervalTime = (selectedInterval > 59 ? selectedInterval - 60 : selectedInterval).toString()
+        let lateTime = ((selectedHour - Math.floor(selectedInterval/60) + 12) % 24).toString()
+        hourForClock = selectedHour - Math.floor(selectedInterval/60)
+        let hourDef = (selectedHour - Math.floor(selectedInterval/60)).toString();
+        const intervalTime = (selectedInterval%60).toString()
 
         early = `${hourDef.padStart(2, '0')}:${intervalTime.padStart(2, '0')}`
         late = `${lateTime.padStart(2, '0')}:${intervalTime.padStart(2, '0')}`
@@ -42,15 +44,19 @@
             </select>
         </div>
     </form>
-    <h2>Je zegt</h2>
-    {#if early}
-        <p>'s ochtends: {early}</p>
-    {/if}
-    {#if late}
-        <p>'s middags en 's avonds: { late }</p>
+
+    {#if late || early}
+        <h2>Je leest of schrijft</h2>
+        {#if early}
+            <p>voor de middag<sup>*</sup>: {early}</p>
+        {/if}
+        {#if late}
+            <p>Na de middag<sup>*</sup>: { late }</p>
+        {/if}
+        <div class="reference"><sup>*</sup>12:00 of twaalf uur</div>
     {/if}
 
-    <Clock hours={selectedHour} minutes={selectedInterval} />
+    <Clock hours={hourForClock} minutes={selectedInterval%60} />
 </div>
   
 <style lang="scss">
@@ -115,5 +121,9 @@
     /* Transition */
     .select:hover::after {
       color: #f39c12;
+    }
+    .reference {
+        font-size: .75rem;
+        opacity: .5;;
     }
 </style>

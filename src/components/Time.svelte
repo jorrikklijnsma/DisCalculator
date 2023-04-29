@@ -3,12 +3,13 @@
   import {hourConvert, minuteConvert} from '../lib/data'
 
     type LabelTypeObject = {
-      type: "Exacte tijd" | "Exacte tijd versie 2" | "Ongeveer (logisch)" | "Ongeveer (minder logisch)",
+      type: "Exacte tijd" | "Exacte tijd versie 2" | "Ongeveer (logisch)" | "Ongeveer (minder logisch)" | "Moment van de dag",
       value: string
     }
     type TimeText = LabelTypeObject[]
 
     let hours = 18;
+    let hoursForClock = 18;
     let minutes = 56;
     let tijdText:TimeText = [];
     let errorText: string | null = null;
@@ -81,7 +82,23 @@
           case 60:
             aproximationLogical = `${nextHourText} uur`
             break;
-      } 
+      }
+
+      let momentOfDay: string;
+      switch (true) {
+        case hours < 6:
+          momentOfDay = "'s Nachts";
+          break;
+        case hours < 12:
+          momentOfDay = "'s Ochtends";
+          break;
+        case hours < 18:
+          momentOfDay = "'s Middags";
+          break;
+        case hours < 24:
+          momentOfDay = "'s Avonds";
+          break;
+      }
 
 
       if (aproximationLogical) {
@@ -89,6 +106,9 @@
       }
       if (aproximationLessLogical) {
         tijdText.push({type:"Ongeveer (minder logisch)", value: aproximationLessLogical})
+      }
+      if (momentOfDay) {
+        tijdText.push({type:"Moment van de dag", value: momentOfDay})
       }
     }
   </script>
@@ -120,7 +140,7 @@
   </div>
   
   <Clock 
-      hours={hours}
+      hours={hoursForClock}
       minutes={minutes}
   />
 </div>
@@ -144,6 +164,10 @@
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 
   .time-texts {
