@@ -10,7 +10,7 @@
 
   inject();
 
-  let selectedView = 'Time'
+  let selectedView = 'Time as Text'
 </script>
 
 <main>
