@@ -92,11 +92,11 @@
   </script>
 
 <div class="timeCalc">
-  <h1>Select Time:</h1>
+  <h3>Selecteer de tijd:</h3>
   <form>
-  <input type="number" bind:value={hours} placeholder="18" on:keyup={calcText} min="00" max="23">
-  :
-  <input type="number" bind:value={minutes} placeholder="56" on:keyup={calcText} min="00" max="59">
+    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={hours} placeholder="18" on:keyup={calcText} min="00" max="23">
+    :
+    <input type="number" inputmode="numeric" enterkeyhint="go" bind:value={minutes} placeholder="56" on:keyup={calcText} min="00" max="59">
   </form>
 
   {#if errorText}

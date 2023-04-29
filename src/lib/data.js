@@ -119,7 +119,7 @@ export const intervalCombined = [
     { text: '20 over', value: 20 },
     { text: '5 voor half', value: 25, nextHour: true},
     { text: '25 over', value: 25 },
-    { text: 'half', value: 30 },
+    { text: 'half', value: 30, nextHour: true},
     { text: '30 over', value: 30 },
     { text: '30 voor', value: 30, nextHour: true},
     { text: '5 over half', value: 35, nextHour: true},

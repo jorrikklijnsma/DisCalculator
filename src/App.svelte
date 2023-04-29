@@ -1,10 +1,14 @@
 <svelte:head>
   <link rel="icon" type="image/png" href="./disCalculatorIcon.png" />
+  <title>DisCalculator | {selectedView}</title>
 </svelte:head>
 
 <script lang="ts">
   import Time from './components/Time.svelte'
   import TimeInText from './components/TimeInText.svelte'
+  import { inject } from '@vercel/analytics';
+
+  inject();
 
   let selectedView = 'Time'
 </script>
@@ -16,15 +20,15 @@
         disCALCULATOR
       </div>
       <div id="nav">
-        <a href="#" on:click={() => {selectedView = "Time"}}>Time</a>      
-        <a href="#"  on:click={() => {selectedView = "TimeInText"}}>Time in Text</a>
+        <a href="#" on:click={() => {selectedView = "Time as Text"}}>Tijd als tekst</a>      
+        <a href="#"  on:click={() => {selectedView = "Text as Time"}}>Tekst als tijd</a>
       </div>
     </header>
     <div class="wrapper">
-      {#if selectedView === "Time"}
+      {#if selectedView === "Time as Text"}
         <Time />
       {/if}
-      {#if selectedView === "TimeInText"}
+      {#if selectedView === "Text as Time"}
         <TimeInText />
       {/if}
     </div>
