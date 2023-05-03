@@ -9,7 +9,6 @@
     type TimeText = LabelTypeObject[]
 
     let hours = 18;
-    let hoursForClock = 18;
     let minutes = 56;
     let tijdText:TimeText = [];
     let errorText: string | null = null;
@@ -140,7 +139,7 @@
   </div>
   
   <Clock 
-      hours={hoursForClock}
+      hours={hours}
       minutes={minutes}
   />
 </div>

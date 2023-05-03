@@ -13,53 +13,30 @@
   let selectedView = 'Time as Text'
 </script>
 
-<main>
-  <div id="app">
-    <header>
-      <div class="logo">
-        disCALCULATOR
-      </div>
-      <div id="nav">
-        <a href="#" on:click={() => {selectedView = "Time as Text"}}>Tijd als tekst</a>      
-        <a href="#"  on:click={() => {selectedView = "Text as Time"}}>Tekst als tijd</a>
-      </div>
-    </header>
-    <div class="wrapper">
-      {#if selectedView === "Time as Text"}
-        <Time />
-      {/if}
-      {#if selectedView === "Text as Time"}
-        <TimeInText />
-      {/if}
+<main id="app">
+  <header>
+    <div class="logo">
+      disCALCULATOR
     </div>
+    <div id="nav">
+      <a href="#" on:click={() => {selectedView = "Time as Text"}}>Tijd als tekst</a>      
+      <a href="#"  on:click={() => {selectedView = "Text as Time"}}>Tekst als tijd</a>
+    </div>
+  </header>
+  <div class="wrapper">
+    {#if selectedView === "Time as Text"}
+      <Time />
+    {/if}
+    {#if selectedView === "Text as Time"}
+      <TimeInText />
+    {/if}
   </div>
 </main>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,300&display=swap');
-html {
-  font-size: 10px;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  background: #0C2840;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #F2E6CE;
-  font-size: 1.8rem;
-  line-height: 1.4rem;
-  padding: 3rem;
-  padding-top: 16rem;
-  font-weight: 300;
-  margin: 0;
-}
-
 header{
   height: 100px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+  width: 100vw;
   display: flex;
   align-items: top;
   justify-content: center;
@@ -84,6 +61,7 @@ header{
       color: #0C2840;
       height: 100%;
       padding: 0 2rem;
+      font-size: 1.5rem;
       text-decoration: none;
       transform: scale(1);
       transition: color .2s ease-in-out, transform .2s ease-in-out;
