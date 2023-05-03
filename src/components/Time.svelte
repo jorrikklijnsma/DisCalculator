@@ -144,7 +144,7 @@
   />
 </div>
   
-<style scoped lang="scss">
+<style lang="scss">
   .timeCalc {
     text-align: center;
     width: 100%;
