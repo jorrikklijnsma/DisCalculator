@@ -7,7 +7,9 @@
     let selectedHour:number = 12
     let hourForClock:number = 0
     let early:string
+    let earlyMomentOfDay:string
     let late:string
+    let lateMomentOfDay:string
 
     const calcText = () => {
         let lateTime = ((selectedHour - Math.floor(selectedInterval/60) + 12) % 24).toString()
@@ -17,6 +19,9 @@
 
         early = `${hourDef.padStart(2, '0')}:${intervalTime.padStart(2, '0')}`
         late = `${lateTime.padStart(2, '0')}:${intervalTime.padStart(2, '0')}`
+
+        earlyMomentOfDay = hourForClock === 12 ? `'s Middags` : hourForClock <= 5 ? `'s Nachts` : `'s Ochtends`;
+        lateMomentOfDay = hourForClock === 12 ? `'s Nachts` : hourForClock <= 5 ? `'s middags'` : `'s Avonds`;
     }
 </script>
 
@@ -25,7 +30,7 @@
     <form on:submit|preventDefault>
         <div class="select">
             <select bind:value={selectedInterval} on:change={calcText}>
-                <option disabled value="">Kies een kwartier</option>
+                <option disabled value="">Kies een tijd</option>
                 {#each intervalCombined as interval}
                     <option value={interval.nextHour ? interval.value + 60 : interval.value}>
                         {interval.text }
@@ -47,13 +52,12 @@
 
     {#if late || early}
         <h2>Je leest of schrijft</h2>
-        {#if early}
-            <p>voor de middag<sup>*</sup>: {early}</p>
+        {#if early && earlyMomentOfDay}
+            <p>{earlyMomentOfDay}: {early}</p>
         {/if}
-        {#if late}
-            <p>Na de middag<sup>*</sup>: { late }</p>
+        {#if late && lateMomentOfDay}
+            <p>{lateMomentOfDay}: { late }</p>
         {/if}
-        <div class="reference"><sup>*</sup>12:00 of twaalf uur</div>
     {/if}
 
     <Clock hours={hourForClock} minutes={selectedInterval%60} />
@@ -97,6 +101,7 @@
       overflow: hidden;
       background: rgb(22, 53, 80);
       color: #F2E6CE;
+      font-size: .75rem;
     }
     select {
       padding: 0 .5em;
@@ -121,9 +126,5 @@
     /* Transition */
     .select:hover::after {
       color: #f39c12;
-    }
-    .reference {
-        font-size: .75rem;
-        opacity: .5;;
     }
 </style>
