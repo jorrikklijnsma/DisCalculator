@@ -1,91 +1,87 @@
-<svelte:head>
-  <link rel="icon" type="image/png" href="./disCalculatorIcon.png" />
-  <title>DisCalculator | {selectedView}</title>
-</svelte:head>
-
 <script lang="ts">
-  import Time from './components/Time.svelte'
-  import TimeInText from './components/TimeInText.svelte'
-  import { inject } from '@vercel/analytics';
+  import AnalogToDigital from "./components/AnalogToDigital.svelte";
+  import Sidebar from "./components/Sidebar.svelte";
+  import TimeAsText from "./components/TimeAsText.svelte";
+  import TimeInText from "./components/TimeInText.svelte";
+  import TimeDifference from "./components/TimeDifference.svelte";
+  import { inject } from "@vercel/analytics";
+  import { onMount } from "svelte";
 
   inject();
 
-  let selectedView = 'Time as Text'
+  let activePage = null;
+
+  let activePageTitle = null;
+
+  const pages = [
+    { name: "Tijd als Text", component: TimeAsText },
+    { name: "Tijd in Text", component: TimeInText },
+    { name: "Analoog naar Digitaal", component: AnalogToDigital },
+    { name: "Tijdsverschil", component: TimeDifference },
+  ];
+
+  onMount(() => {
+    // Set the initial active page
+    activePage = pages[0].component;
+  });
+
+  function handlePageSelected(event) {
+    activePage = event.detail.component;
+    activePageTitle = event.detail.name;
+  }
 </script>
 
-<main id="app">
-  <header>
-    <div class="logo">
-      disCALCULATOR
-    </div>
-    <div id="nav">
-      <a href="#" on:click={() => {selectedView = "Time as Text"}}>Tijd als tekst</a>      
-      <a href="#"  on:click={() => {selectedView = "Text as Time"}}>Tekst als tijd</a>
-    </div>
-  </header>
-  <div class="wrapper">
-    {#if selectedView === "Time as Text"}
-      <Time />
-    {/if}
-    {#if selectedView === "Text as Time"}
-      <TimeInText />
-    {/if}
-  </div>
-</main>
+<svelte:head>
+  <link rel="icon" type="image/png" href="./disCalculatorIcon.png" />
+  <title>DisCalculator | {activePageTitle}</title>
+</svelte:head>
+
+<div id="app">
+  <aside>
+    <Sidebar {pages} {activePageTitle} on:pageSelected={handlePageSelected} />
+  </aside>
+  <main>
+    <header>
+      <div class="logo">disCALCULATOR</div>
+    </header>
+
+    <!-- Render the active page component -->
+    <svelte:component this={activePage} />
+  </main>
+</div>
 
 <style lang="scss">
-header{
-  height: 100px;
-  width: 100vw;
-  display: flex;
-  align-items: top;
-  justify-content: center;
-  flex-wrap: wrap;
-  background: #F2E6CE;
-  box-shadow: 0 0 50px rgba(0,0,0,.3);
-
-  .logo {
-    flex-grow: 1;
-    margin-left: 3rem;
-    font-size: 28px;
-    font-weight: 300;
-    width: 100%;
-    text-align: center;
-    color: #D97F77;
-    line-height: 1.5;
+  aside {
   }
+  header {
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #f2e6ce;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
 
-  #nav {
-    a {
-      font-weight: bold;
-      color: #0C2840;
-      height: 100%;
-      padding: 0 2rem;
-      font-size: 1rem;
-      text-decoration: none;
-      transform: scale(1);
-      transition: color .2s ease-in-out, transform .2s ease-in-out;
-
-      &:hover {
-        color: #D97F77;
-        transform: scale(1.1);
-      }
-
-      &.router-link-exact-active {
-        color: #8C403A;
-      }
+    .logo {
+      flex-grow: 1;
+      margin-left: 3rem;
+      font-size: 28px;
+      font-weight: 300;
+      width: 100%;
+      text-align: center;
+      color: #d97f77;
+      line-height: 1.5;
     }
   }
-}
 
-.wrapper { 
-  text-align: center;
-  padding-top: 3rem;
-  max-width: 550px;
-  width: 100vw;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
+  .wrapper {
+    text-align: center;
+    padding-top: 3rem;
+    max-width: 550px;
+    width: 100vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
-
