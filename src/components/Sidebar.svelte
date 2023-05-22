@@ -22,21 +22,23 @@
   }
 </script>
 
-<div class="sidebar" class:open={isSidebarOpen}>
+<nav class:open={isSidebarOpen}>
   <div class="sidebar-overlay" on:click={closeSidebar} />
-  <div class="sidebar-content">
-    <ul>
-      {#each pages as page}
-        <li
-          class:selected={page.name === activePageTitle}
-          on:click={() => selectPage(page)}
-        >
-          {page.name}
-        </li>
-      {/each}
-    </ul>
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <ul>
+        {#each pages as page}
+          <li
+            class:selected={page.name === activePageTitle}
+            on:click={() => selectPage(page)}
+          >
+            {page.name}
+          </li>
+        {/each}
+      </ul>
+    </div>
   </div>
-</div>
+</nav>
 
 <button class="toggle-button" on:click={toggleSidebar}>
   {#if isSidebarOpen}
@@ -47,56 +49,77 @@
 </button>
 
 <style lang="scss">
-  /* Add your custom styles here */
-  .sidebar {
-    position: fixed;
-    z-index: 12;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    transform: translateX(100%);
-    transition: transform 0.2s ease-out;
-  }
+  nav {
+    pointer-events: none;
 
-  .sidebar.open {
-    transform: translateX(0);
-  }
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      transition: scale 0.2s ease-out;
+      scale: 0 1;
+      transform-origin: 100% 0%;
+    }
 
-  .sidebar-overlay {
     position: fixed;
-    z-index: 10;
-    top: 0;
     right: 0;
+    top: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  .sidebar-content {
-    padding: 16px;
-  }
+    .sidebar {
+      transform: translateX(100%);
+      opacity: 0;
+      transition: transform 0.2s ease-out;
 
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
+      .sidebar-content {
+        padding: 1rem;
+        z-index: 10;
 
-  .sidebar li {
-    cursor: pointer;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
-  }
+        ul {
+          list-style-type: none;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 50px;
 
-  .sidebar li:hover {
-    color: #d97f77;
-    background: rgba(255, 255, 255, 0.2);
-  }
+          li {
+            cursor: pointer;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
 
-  .sidebar li.selected {
-    background: rgba(255, 255, 255, 0.4);
-    color: #8c403a;
-    font-weight: bold;
+            &:hover {
+              // color: #8c403a;
+              color: #d97f77;
+            }
+
+            &.selected {
+              color: #d97f77;
+              border-color: #8c403a;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+
+    &.open {
+      pointer-events: initial;
+      .sidebar-overlay {
+        scale: 1 1;
+      }
+      .sidebar {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
   }
 
   .toggle-button {

@@ -4,6 +4,7 @@
   import Clock from "./Clock.svelte";
 
   let minuteForClock = 0;
+  let hourFor24Clock = 0;
   let hourForClock = 0;
 
   function setHandlePositions() {
@@ -30,39 +31,73 @@
     ) as HTMLInputElement;
 
     if (hourInput && minuteInput) {
-      hourForClock = +hourInput.value;
-      minuteForClock = +minuteInput.value;
+      hourForClock = hourInput.value;
+      hourFor24Clock = (hourInput.value + 12) % 24;
+      minuteForClock = minuteInput.value;
       setHandlePositions();
     }
   }
 </script>
 
 <div class="analogToDigital">
-  <label for="hourInput">Hour:</label>
-  <input
-    type="range"
-    id="hourInput"
-    min="0"
-    max="12"
-    step="1"
-    value="0"
-    on:input={handleInputChange}
-  />
+  <div class="sliderInputs">
+    <div>
+      <label for="hourInput">Hour:</label>
+      <input
+        type="range"
+        id="hourInput"
+        min="0"
+        max="12"
+        step="1"
+        value="0"
+        on:input={handleInputChange}
+      />
+    </div>
+    <div>
+      <label for="minuteInput">Minute:</label>
+      <input
+        type="range"
+        id="minuteInput"
+        min="0"
+        max="60"
+        step="1"
+        value="0"
+        on:input={handleInputChange}
+      />
+    </div>
+  </div>
 
-  <label for="minuteInput">Minute:</label>
-  <input
-    type="range"
-    id="minuteInput"
-    min="0"
-    max="60"
-    step="1"
-    value="0"
-    on:input={handleInputChange}
-  />
-
-  <Clock hours={hourForClock} minutes={minuteForClock} />
+  <div>
+    <p>
+      {hourForClock.toString().padStart(2, "0")} : {minuteForClock
+        .toString()
+        .padStart(2, "0")}
+    </p>
+    <p>
+      {hourFor24Clock.toString().padStart(2, "0")} : {minuteForClock
+        .toString()
+        .padStart(2, "0")}
+    </p>
+    <Clock hours={hourForClock} minutes={minuteForClock} />
+  </div>
 </div>
 
 <style lang="scss">
+  .analogToDigital {
+    text-align: center;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+
+    .sliderInputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
   /* Add your custom styles here */
 </style>

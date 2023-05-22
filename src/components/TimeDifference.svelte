@@ -84,5 +84,8 @@
 </div>
 
 <style lang="scss">
-  /* Add your custom styles here */
+  .timeCalc {
+    text-align: center;
+    width: 100%;
+  }
 </style>

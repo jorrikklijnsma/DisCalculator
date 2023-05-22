@@ -37,9 +37,6 @@
 </svelte:head>
 
 <div id="app">
-  <aside>
-    <Sidebar {pages} {activePageTitle} on:pageSelected={handlePageSelected} />
-  </aside>
   <main>
     <header>
       <div class="logo">disCALCULATOR</div>
@@ -48,6 +45,10 @@
     <!-- Render the active page component -->
     <svelte:component this={activePage} />
   </main>
+
+  <aside>
+    <Sidebar {pages} {activePageTitle} on:pageSelected={handlePageSelected} />
+  </aside>
 </div>
 
 <style lang="scss">
